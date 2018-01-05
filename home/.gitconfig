@@ -1,0 +1,38 @@
+[push]
+	default = current
+[core]
+	trustctime = false
+	editor = vim
+	filemode = false
+[color]
+	ui = true
+[diff]
+  tool = vimdiff
+[difftool]
+  prompt = false
+[merge]
+	tool = vimdiff
+[mergetool]
+	keeptemporaries = false
+	keepbackups = false
+	prompt = false
+	trustexitcode = false
+[alias]
+	last = log -1 --stat
+	cp = cherry-pick
+	co = checkout
+	cl = clone
+	ci = commit
+	st = status -sb
+	br = branch
+	unstage = reset HEAD --
+	dc = diff --cached
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[user]
+	name = tredontho
+	email = tredontho@gmail.com
+[rerere]
+	enabled = true
+[log]
+	date = iso-local
