@@ -22,10 +22,17 @@ import XMonad.Util.EZConfig
 
 --------------------------------------------------------------------------------
 main = xmonad =<< xmobar (
-      desktopConfig { modMask    = mod4Mask -- Use the "Win" key for the mod key
+      desktopConfig { modMask = mod4Mask -- Use the "Win" key for the mod key
       , manageHook = myManageHook <+> manageHook desktopConfig
       , layoutHook = desktopLayoutModifiers $ myLayouts
-      , logHook    = dynamicLogString def >>= xmonadPropLog
+      -- , logHook    = dynamicLogString def >>= xmonadPropLog
+      , logHook = dynamicLogWithPP $ xmobarPP
+            { ppCurrent = xmobarColor "#859900" "" . wrap "[" "]"
+            , ppVisible = xmobarColor "#2aa198" "" . wrap "(" ")"
+            , ppLayout = xmobarColor "#2aa198" ""
+            , ppTitle = xmobarColor "#859900" "" . shorten 50
+            }
+
       }
 
       `additionalKeysP` -- Add some extra key bindings:
