@@ -33,6 +33,7 @@ main = xmonad =<< xmobar (
             , ppTitle = xmobarColor "#859900" "" . shorten 50
             }
 
+      , terminal = "urxvt"
       }
 
       `additionalKeysP` -- Add some extra key bindings:
