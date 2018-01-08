@@ -39,6 +39,9 @@
 
     xfontsel
     xlsfonts
+    xorg.xbacklight
+    xbindkeys
+    xbindkeys-config
 
     dmenu
     xscreensaver
@@ -68,11 +71,15 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "us";
+  services.xserver.xkbOptions = "ctrl:swapcaps";
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable touchpad support.
   # services.xserver.libinput.enable = true;
-  services.xserver.synaptics.enable = true;
+  services.xserver.synaptics = {
+    enable = true;
+    palmDetect = true;
+  };
 
   # Enable the KDE Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;
