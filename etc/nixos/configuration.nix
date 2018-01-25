@@ -53,6 +53,7 @@
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+  programs.ssh.startAgent = true;
 
   # List services that you want to enable:
 
