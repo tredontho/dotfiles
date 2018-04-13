@@ -46,15 +46,15 @@
     XF86MonBrightnessDown 
 
 #Volume Up
-"amixer set Master 5%+"
+"sh -c 'pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%'"
     XF86AudioRaiseVolume
 
 #Volume Down
-"amixer set Master 5%-"
+"sh -c 'pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%'"
     XF86AudioLowerVolume
 
 #Volume Mute
-"amixer set Master toggle"
+"pactl set-sink-mute 0 toggle"
     XF86AudioMute
 
 #

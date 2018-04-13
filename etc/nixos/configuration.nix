@@ -28,6 +28,8 @@
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
+  hardware.pulseaudio.enable = true;
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
@@ -99,7 +101,7 @@
     isNormalUser = true;
     home = "/home/tredontho";
     description = "First Last";
-    extraGroups = ["wheel" "networkmanager"];
+    extraGroups = ["wheel" "networkmanager" "audio"];
     hashedPassword = "mkPasswd result";
     initialHashedPassword = "same as above?";
   };
