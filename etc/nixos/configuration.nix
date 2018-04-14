@@ -17,6 +17,7 @@
   networking.hostName = "hostname"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
+  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 
   # Select internationalisation properties.
   # i18n = {
@@ -34,6 +35,7 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     wget vim git mkpasswd nmap tcpdump rxvt_unicode
+    tmux
     irssi
     
     chromium trayer
@@ -79,9 +81,11 @@
 
   # Enable touchpad support.
   # services.xserver.libinput.enable = true;
-  services.xserver.synaptics = {
+  # services.xserver.synaptics = {
+  services.xserver.libinput = {
     enable = true;
-    palmDetect = true;
+    disableWhileTyping = true;
+    sendEventsMode = "disabled-on-external-mouse";
   };
 
   # Enable the KDE Desktop Environment.
