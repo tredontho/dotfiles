@@ -13,6 +13,7 @@
         # haskell
         cabal2nix
         cabal-install
+        ghc
 
         # purescript
         nodejs
