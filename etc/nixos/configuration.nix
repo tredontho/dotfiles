@@ -37,6 +37,7 @@
     wget vim git mkpasswd nmap tcpdump rxvt_unicode
     tmux
     irssi
+    keepassx2
     
     chromium trayer
     haskellPackages.xmobar
