@@ -1,10 +1,10 @@
 {
   allowUnfree = true;
   
-  # Use nix-env -iA nixpkgs.all
+  # Use nix-env -iA nixpkgs.tredontho
   packageOverrides = pkgs_ : with pkgs_; {
-    all = with pkgs; buildEnv {
-      name = "all";
+    tredontho = with pkgs; buildEnv {
+      name = "tredontho";
 
       paths = [
         # dev
@@ -29,6 +29,7 @@
         # misc
 
         pandoc
+        slack
       ];
     };
   };
