@@ -13,15 +13,16 @@
         # haskell
         cabal2nix
         cabal-install
-        ghc
+        #ghc
+        haskellPackages.ghcid
 
         # purescript
-        nodejs
-        haskellPackages.purescript
-        nodePackages.pulp
-        nodePackages.grunt-cli
-        nodePackages.gulp
-        nodePackages.bower
+        #nodejs-8_x
+        #haskellPackages.purescript
+        #nodePackages.pulp
+        #nodePackages.grunt-cli
+        #nodePackages.gulp
+        #nodePackages.bower
 
         # games
         dwarf-fortress
@@ -30,6 +31,17 @@
 
         pandoc
         slack
+        okular
+        scrot
+
+        # R
+        #rstudio
+
+        # latex
+        texlive.combined.scheme-full
+
+        # unity
+        unity3d
       ];
     };
   };

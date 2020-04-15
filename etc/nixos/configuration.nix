@@ -34,12 +34,15 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    wget vim git mkpasswd nmap tcpdump rxvt_unicode
+    wget vim_configurable git mkpasswd nmap tcpdump rxvt_unicode htop
     tmux
     irssi
     keepassx2
+    maim
     
-    chromium trayer
+    chromium
+    firefox
+    trayer
     haskellPackages.xmobar
 
     xfontsel
@@ -51,6 +54,13 @@
     dmenu
     xscreensaver
     xclip
+
+    bc
+    unzip
+    tree
+
+    zsh
+    oh-my-zsh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -59,6 +69,38 @@
   # programs.mtr.enable = true;
   # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.ssh.startAgent = true;
+
+  programs.zsh.enable = true;
+  programs.zsh.interactiveShellInit = ''
+    export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
+
+    # Customize your oh-my-zsh options here
+    ZSH_THEME="robbyrussell"
+    plugins=(git docker)
+
+    bindkey '\e[5~' history-beginning-search-backward
+    bindkey '\e[6~' history-beginning-search-forward
+
+    HISTFILESIZE=500000
+    HISTSIZE=500000
+    setopt SHARE_HISTORY
+    setopt HIST_IGNORE_ALL_DUPS
+    setopt HIST_IGNORE_DUPS
+    setopt INC_APPEND_HISTORY
+    autoload -U compinit && compinit
+    unsetopt menu_complete
+    unsetopt beep
+    setopt completealiases
+    bindkey -v
+
+    if [ -f ~/.aliases ]; then
+      source ~/.aliases
+    fi
+
+    source $ZSH/oh-my-zsh.sh
+  '';
+  programs.zsh.promptInit = "";
+
 
   # List services that you want to enable:
 
@@ -109,6 +151,7 @@
     extraGroups = ["wheel" "networkmanager" "audio"];
     hashedPassword = "mkPasswd result";
     initialHashedPassword = "same as above?";
+    shell = pkgs.zsh;
   };
   users.mutableUsers = false;
 

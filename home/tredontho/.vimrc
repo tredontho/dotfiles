@@ -5,6 +5,10 @@ set softtabstop=2
 set shiftwidth=0 " use same value as tabstop
 set expandtab
 set autoindent
+set number
+set ruler
+
+set path+=**
 
 " Plugins
 

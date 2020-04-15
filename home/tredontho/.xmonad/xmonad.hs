@@ -40,6 +40,7 @@ main = xmonad =<< xmobar (
         [ ("M-S-q",   confirmPrompt myXPConfig "exit" (io exitSuccess))
         , ("M-p",     shellPrompt myXPConfig)
         , ("M-<Esc>", sendMessage (Toggle "Full"))
+        , ("M-S-z",   spawn "xscreensaver-command -lock")
         ]
     )
 

@@ -29,7 +29,7 @@
 
 
 
-#keystate_numlock = enable
+keystate_numlock = enable
 #keystate_scrolllock = enable
 #keystate_capslock = enable
 
@@ -37,12 +37,10 @@
 
 #Brightness Up
 "xbacklight -inc 10"
-    m:0x0 + c:233
     XF86MonBrightnessUp 
 
 #Brightness Down
 "xbacklight -dec 10"
-    m:0x0 + c:232
     XF86MonBrightnessDown 
 
 #Volume Up
