@@ -38,3 +38,7 @@
 	enabled = true
 [log]
 	date = iso-local
+[rebase]
+	autosquash = true
+[pager]
+	log = false
