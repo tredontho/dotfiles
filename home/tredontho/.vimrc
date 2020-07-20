@@ -1,14 +1,24 @@
 set number
+set ruler
 " Indentation/tab related settings
 set tabstop=2
 set softtabstop=2
 set shiftwidth=0 " use same value as tabstop
 set expandtab
 set autoindent
-set number
-set ruler
 
 set path+=**
+syntax enable
+set background=dark
+
+" Some split settings
+set splitbelow
+set splitright
+
+packadd! matchit
+" Type TODAY() to insert today's date
+" Note: use Ctrl-V after typing Today() to bypass the abbreviation
+iab <expr> TODAY() strftime("%Y-%m-%d")
 
 " Plugins
 
@@ -21,8 +31,15 @@ endif
 call plug#begin('~/.vim/vimplugs')
 
 Plug 'purescript-contrib/purescript-vim'
+Plug 'tpope/vim-fugitive'
+Plug 'altercation/vim-colors-solarized'
+Plug 'freitass/todo.txt-vim'
+Plug 'jceb/vim-orgmode'
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
+
+colorscheme solarized
 
 " Uncomment to highlight trailing whitespace
 "highlight ExtraWhitespace ctermbg=red guibg=red
