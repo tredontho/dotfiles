@@ -39,6 +39,6 @@
 [log]
 	date = iso-local
 [rebase]
-	autosquash = true
+	autoSquash = true
 [pager]
 	log = false
