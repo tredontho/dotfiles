@@ -2,8 +2,8 @@
   allowUnfree = true;
   
   # Use nix-env -iA nixpkgs.tredontho
-  packageOverrides = pkgs_ : with pkgs_; {
-    tredontho = with pkgs; buildEnv {
+  packageOverrides = pkgs : with pkgs; {
+    tredontho = pkgs.buildEnv {
       name = "tredontho";
 
       paths = [
@@ -33,6 +33,9 @@
         slack
         okular
         scrot
+        ytop
+        wireshark
+        openvpn
 
         # R
         #rstudio
@@ -43,6 +46,7 @@
         # unity
         unity3d
       ];
+      pathsToLink = [ "/share" "/bin" ];
     };
   };
 }

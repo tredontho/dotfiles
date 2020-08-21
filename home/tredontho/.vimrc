@@ -16,9 +16,6 @@ set splitbelow
 set splitright
 
 packadd! matchit
-" Type TODAY() to insert today's date
-" Note: use Ctrl-V after typing Today() to bypass the abbreviation
-iab <expr> TODAY() strftime("%Y-%m-%d")
 
 " Plugins
 

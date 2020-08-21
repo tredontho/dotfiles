@@ -30,6 +30,7 @@
   time.timeZone = "America/Chicago";
 
   hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -83,6 +84,7 @@
 
     HISTFILESIZE=500000
     HISTSIZE=500000
+    EDITOR=vim
     setopt SHARE_HISTORY
     setopt HIST_IGNORE_ALL_DUPS
     setopt HIST_IGNORE_DUPS
@@ -103,6 +105,14 @@
 
 
   # List services that you want to enable:
+
+  # Start with `systemctl start openvpn-<name>.service`
+  services.openvpn.servers = {
+    pia = {
+      autoStart = false;
+      config = '' config /home/<username>/openvpn/pia.conf '';
+    };
+  };
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;

@@ -4,6 +4,7 @@
 	trustctime = false
 	editor = vim
 	filemode = false
+	excludesfile = /home/tredontho/.gitignore_global
 [color]
 	ui = true
 [diff]
