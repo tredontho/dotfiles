@@ -9,20 +9,23 @@
       paths = [
         # dev
         nix-prefetch-git
+	git
+	neovim
+	tmux
 
         # haskell
-        cabal2nix
-        cabal-install
-        #ghc
-        haskellPackages.ghcid
+        # cabal2nix
+        # cabal-install
+        # ghc
+        # haskellPackages.ghcid
 
         # purescript
-        #nodejs-8_x
-        #haskellPackages.purescript
-        #nodePackages.pulp
-        #nodePackages.grunt-cli
-        #nodePackages.gulp
-        #nodePackages.bower
+        # nodejs-8_x
+        # haskellPackages.purescript
+        # nodePackages.pulp
+        # nodePackages.grunt-cli
+        # nodePackages.gulp
+        # nodePackages.bower
 
         # games
         dwarf-fortress
@@ -38,7 +41,7 @@
         openvpn
 
         # R
-        #rstudio
+        # rstudio
 
         # latex
         texlive.combined.scheme-full
