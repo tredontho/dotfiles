@@ -2,9 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
+  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    # "nvidia-x11"
+    # "nvidia-settings"
+  # ];
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -14,7 +18,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "hostname"; # Define your hostname.
+  networking.hostName = "monoid"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
   networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
@@ -35,10 +39,10 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    wget vim_configurable git mkpasswd nmap tcpdump rxvt_unicode htop
+    wget vim_configurable git mkpasswd nmap tcpdump rxvt_unicode bottom curl
+    neovim
     tmux
     irssi
-    keepassx2
     maim
     
     chromium
@@ -60,8 +64,11 @@
     unzip
     tree
 
-    zsh
-    oh-my-zsh
+  ];
+
+
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "Hack" ]; })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -69,39 +76,8 @@
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-  programs.ssh.startAgent = true;
-
+  # programs.ssh.startAgent = true;
   programs.zsh.enable = true;
-  programs.zsh.interactiveShellInit = ''
-    export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
-
-    # Customize your oh-my-zsh options here
-    ZSH_THEME="robbyrussell"
-    plugins=(git docker)
-
-    bindkey '\e[5~' history-beginning-search-backward
-    bindkey '\e[6~' history-beginning-search-forward
-
-    HISTFILESIZE=500000
-    HISTSIZE=500000
-    EDITOR=vim
-    setopt SHARE_HISTORY
-    setopt HIST_IGNORE_ALL_DUPS
-    setopt HIST_IGNORE_DUPS
-    setopt INC_APPEND_HISTORY
-    autoload -U compinit && compinit
-    unsetopt menu_complete
-    unsetopt beep
-    setopt completealiases
-    bindkey -v
-
-    if [ -f ~/.aliases ]; then
-      source ~/.aliases
-    fi
-
-    source $ZSH/oh-my-zsh.sh
-  '';
-  programs.zsh.promptInit = "";
 
 
   # List services that you want to enable:
@@ -110,7 +86,7 @@
   services.openvpn.servers = {
     pia = {
       autoStart = false;
-      config = '' config /home/<username>/openvpn/pia.conf '';
+      config = '' config /home/tredontho/openvpn/pia.conf '';
     };
   };
 
@@ -126,28 +102,31 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "ctrl:swapcaps";
-  # services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-  # services.xserver.synaptics = {
-  services.xserver.libinput = {
+  services.xserver = {
     enable = true;
-    disableWhileTyping = true;
-    sendEventsMode = "disabled-on-external-mouse";
+    layout = "us";
+    xkbOptions = "ctrl:swapcaps";
+    # videoDrivers = [ "nvidia" ];
+
+    libinput = {
+      enable = true;
+      touchpad.disableWhileTyping = true;
+    };
+
+    displayManager = {
+      lightdm.enable = true;
+      defaultSession = "none+xmonad";
+    };
+
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+    };
   };
 
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.windowManager = {
-    xmonad.enable = true;
-    xmonad.enableContribAndExtras = true;
-  };
+  # Docker
+  virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # users.extraUsers.guest = {
@@ -157,11 +136,11 @@
   users.extraUsers.tredontho = {
     isNormalUser = true;
     home = "/home/tredontho";
-    description = "First Last";
-    extraGroups = ["wheel" "networkmanager" "audio"];
-    hashedPassword = "mkPasswd result";
-    initialHashedPassword = "same as above?";
+    description = "Trevor Thompson";
+    extraGroups = ["wheel" "networkmanager" "audio" "docker"];
     shell = pkgs.zsh;
+    hashedPassword = "$6$oUnoYBhnke$ceyJtWtBWQb8HpDQLR3cWTEFAWo9QNMXwvTu5TUVW0ajZ.UD1HpKPLRyvj6IFelaHr7q57/gFZT8sjkO8aekY.";
+    initialHashedPassword = "$6$oUnoYBhnke$ceyJtWtBWQb8HpDQLR3cWTEFAWo9QNMXwvTu5TUVW0ajZ.UD1HpKPLRyvj6IFelaHr7q57/gFZT8sjkO8aekY.";
   };
   users.mutableUsers = false;
 
@@ -169,6 +148,6 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "17.09"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 
 }
