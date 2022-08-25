@@ -78,6 +78,10 @@
   # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   # programs.ssh.startAgent = true;
   # programs.zsh.enable = true;
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp4s0";
+  };
 
 
   # List services that you want to enable:
