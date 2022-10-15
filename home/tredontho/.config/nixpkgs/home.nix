@@ -27,6 +27,7 @@
     pkgs.nix
     pkgs.nodejs
     pkgs.ripgrep
+    pkgs.brightnessctl
   ];
 
   services.gpg-agent = {
