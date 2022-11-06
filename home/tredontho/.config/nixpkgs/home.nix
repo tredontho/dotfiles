@@ -182,6 +182,24 @@
     vimdiffAlias = true;
   };
 
+  programs.sioyek = {
+    enable = true;
+    bindings = {
+      "move_up" = "k";
+      "move_down" = "j";
+      "move_left" = "h";
+      "move_right" = "l";
+      "screen_down" = [ "d" "<C-d>" ];
+      "screen_up" = [ "u" "<C-u>" ];
+    };
+  };
+
+  programs.texlive = {
+    enable = true;
+    # packageSet = pkgs.texlive.combined.scheme-full;
+    extraPackages = tpkgs: {inherit (tpkgs) collection-fontsrecommended scheme-full; };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
