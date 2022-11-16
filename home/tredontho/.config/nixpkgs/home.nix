@@ -50,6 +50,14 @@
       };
       userEmail = "tredontho@gmail.com";
       userName = "tredontho";
+      extraConfig = {
+        push = {
+          default = "current";
+        };
+        log.date = "iso-local";
+        rerere.enabled = true;
+        rebase.autoSquash = true;
+      };
     };
 
     starship = {
