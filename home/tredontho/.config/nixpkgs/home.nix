@@ -35,18 +35,18 @@
     git = {
       enable = true;
       aliases = {
-	last = "log -1 --stat";
-	cp = "cherry-pick";
-	co = "checkout";
-	cl = "clone";
-	ci = "commit";
-	st = "status -sb";
-	br = "branch";
-	dc = "diff --cached";
-	# lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative ";
-	# lga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
+        last = "log -1 --stat";
+        cp = "cherry-pick";
+        co = "checkout";
+        cl = "clone";
+        ci = "commit";
+        st = "status -sb";
+        br = "branch";
+        dc = "diff --cached";
+        # lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative ";
+        # lga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
         # lol = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
-	please = "push --force-with-lease";
+        please = "push --force-with-lease";
       };
       userEmail = "tredontho@gmail.com";
       userName = "tredontho";
@@ -58,6 +58,20 @@
         rerere.enabled = true;
         rebase.autoSquash = true;
       };
+    };
+
+    neovim = {
+      enable = true;
+      plugins = with pkgs.vimPlugins; [
+        fzf-vim
+        tmux-navigator
+        vim-fugitive
+        vim-monokai-pro
+        vim-nix
+        vim-sensible
+      ];
+      vimAlias = true;
+      vimdiffAlias = true;
     };
 
     starship = {
@@ -96,9 +110,13 @@
         size = 50000;
       };
 
-      # initExtra = ''
-      #   export EDITOR=nvim
-      # '';
+      sessionVariables = {
+        EDITOR = "nvim";
+      };
+
+      shellAliases = {
+        ll = "ls -l";
+      };
     };
   };
 
