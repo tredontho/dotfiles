@@ -24,6 +24,11 @@
     pkgs.ripgrep
   ];
 
+  xdg.configFile.nvim = {
+    source = ./config-nvim;
+    recursive = true;
+  };
+
   programs = {
     fzf = {
       enable = true;
@@ -62,13 +67,26 @@
 
     neovim = {
       enable = true;
+      extraConfig = ''
+        :luafile ~/.config/nvim/lua/init.lua
+      '';
       plugins = with pkgs.vimPlugins; [
+        cmp-nvim-lsp
+        cmp-nvim-lsp-signature-help
         fzf-vim
+        legendary-nvim
+        nvim-cmp
+        nvim-lspconfig
         tmux-navigator
         vim-fugitive
+        vim-illuminate
         vim-monokai-pro
         vim-nix
         vim-sensible
+      ];
+      extraPackages = with pkgs; [
+        haskellPackages.haskell-language-server
+        sumneko-lua-language-server
       ];
       vimAlias = true;
       vimdiffAlias = true;
