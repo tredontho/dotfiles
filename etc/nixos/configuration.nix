@@ -2,97 +2,105 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
-  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    # "nvidia-x11"
-    # "nvidia-settings"
-  # ];
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
+  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "monoid"; # Define your hostname.
+  networking.hostName = "virhe"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;
-  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 
-  # Select internationalisation properties.
-  # i18n = {
-  #   consoleFont = "Lat2-Terminus16";
-  #   consoleKeyMap = "us";
-  #   defaultLocale = "en_US.UTF-8";
-  # };
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
-  hardware.pulseaudio.enable = true;
-  hardware.bluetooth.enable = true;
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.utf8";
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    wget vim_configurable git mkpasswd nmap tcpdump rxvt_unicode bottom curl
-    neovim
-    tmux
-    irssi
-    maim
-    
-    chromium
-    firefox
-    trayer
-    haskellPackages.xmobar
+  services.interception-tools = {
+    enable = true;
+    plugins = [ pkgs.interception-tools-plugins.caps2esc ];
+    udevmonConfig = ''
+      - JOB: "$pkgs.interception-tools}/bin/intercept -g $DEVNODE | $pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          EVENTS:
+            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+    '';
+  };
 
-    xfontsel
-    xlsfonts
-    xorg.xbacklight
-    xbindkeys
-    xbindkeys-config
+  # Configure X11
+  services.xserver = {
+    enable = true;
+    layout = "us";
+    xkbVariant = "";
+    libinput = {
+      enable = true;
+    };
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+      extraPackages = haskellPackages: [
+        haskellPackages.xmonad-contrib
+      ];
+    };
+  };
 
-    dmenu
-    xscreensaver
-    xclip
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.tredontho = {
+    isNormalUser = true;
+    description = "Trevor Thompson";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [];
+    shell = pkgs.zsh;
+  };
 
-    bc
-    unzip
-    tree
-
-  ];
-
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "Hack" ]; })
+    nerdfonts
   ];
+
+  # Enable flakes
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+  ];
+
+  programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-  # programs.ssh.startAgent = true;
-  # programs.zsh.enable = true;
-  programs.captive-browser = {
-    enable = true;
-    interface = "wlp4s0";
-  };
-
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
   # List services that you want to enable:
-
-  # Start with `systemctl start openvpn-<name>.service`
-  services.openvpn.servers = {
-    pia = {
-      autoStart = false;
-      config = '' config /home/tredontho/openvpn/pia.conf '';
-    };
-  };
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -103,55 +111,12 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    xkbOptions = "ctrl:swapcaps";
-    # videoDrivers = [ "nvidia" ];
-
-    libinput = {
-      enable = true;
-      touchpad.disableWhileTyping = true;
-    };
-
-    displayManager = {
-      lightdm.enable = true;
-      defaultSession = "none+xmonad";
-    };
-
-    windowManager.xmonad = {
-      enable = true;
-      enableContribAndExtras = true;
-    };
-  };
-
-  # Docker
-  virtualisation.docker.enable = true;
-  virtualisation.virtualbox.host.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.extraUsers.guest = {
-  #   isNormalUser = true;
-  #   uid = 1000;
-  # };
-  users.extraUsers.tredontho = {
-    isNormalUser = true;
-    home = "/home/tredontho";
-    description = "Trevor Thompson";
-    extraGroups = ["wheel" "networkmanager" "audio" "docker"];
-    shell = pkgs.zsh;
-    hashedPassword = "$6$oUnoYBhnke$ceyJtWtBWQb8HpDQLR3cWTEFAWo9QNMXwvTu5TUVW0ajZ.UD1HpKPLRyvj6IFelaHr7q57/gFZT8sjkO8aekY.";
-    initialHashedPassword = "$6$oUnoYBhnke$ceyJtWtBWQb8HpDQLR3cWTEFAWo9QNMXwvTu5TUVW0ajZ.UD1HpKPLRyvj6IFelaHr7q57/gFZT8sjkO8aekY.";
-  };
-  users.mutableUsers = false;
-
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.05"; # Did you read the comment?
 
 }
