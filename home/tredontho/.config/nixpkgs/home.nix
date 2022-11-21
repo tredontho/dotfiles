@@ -121,6 +121,9 @@
 
     urxvt = {
       enable = true;
+      fonts = [
+        "xft:Hack Nerd Font:size=10"
+      ];
       keybindings = {
         "Shift-Control-C" = "eval:selection_to_clipboard";
         "Shift-Control-V" = "eval:paste_clipboard";
@@ -164,75 +167,62 @@
   };
 
   xresources.extraConfig = ''
-    ! special
-    *.foreground:   #d1d1d1
-    ! *.background:   #221e2d
-    *.cursorColor:  #d1d1d1
+    #define S_base03        #002b36
+    #define S_base02        #073642
+    #define S_base01        #586e75
+    #define S_base00        #657b83
+    #define S_base0         #839496
+    #define S_base1         #93a1a1
+    #define S_base2         #eee8d5
+    #define S_base3         #fdf6e3
 
-    ! black
-    *.color0:       #272822
-    *.color8:       #75715e
+    *background:            S_base03
+    *foreground:            S_base0
+    *fadeColor:             S_base03
+    *cursorColor:           S_base1
+    *pointerColorBackground:S_base01
+    *pointerColorForeground:S_base1
 
-    ! red
-    *.color1:       #f92672
-    *.color9:       #f92672
+    #define S_yellow        #b58900
+    #define S_orange        #cb4b16
+    #define S_red           #dc322f
+    #define S_magenta       #d33682
+    #define S_violet        #6c71c4
+    #define S_blue          #268bd2
+    #define S_cyan          #2aa198
+    #define S_green         #859900
 
-    ! green
-    *.color2:       #a6e22e
-    *.color10:      #a6e22e
+    !! black dark/light
+    *color0:                S_base02
+    *color8:                S_base03
 
-    ! yellow
-    *.color3:       #f4bf75
-    *.color11:      #f4bf75
+    !! red dark/light
+    *color1:                S_red
+    *color9:                S_orange
 
-    ! blue
-    *.color4:       #66d9ef
-    *.color12:      #66d9ef
+    !! green dark/light
+    *color2:                S_green
+    *color10:               S_base01
 
-    ! magenta
-    *.color5:       #ae81ff
-    *.color13:      #ae81ff
+    !! yellow dark/light
+    *color3:                S_yellow
+    *color11:               S_base00
 
-    ! cyan
-    *.color6:       #a1efe4
-    *.color14:      #a1efe4
+    !! blue dark/light
+    *color4:                S_blue
+    *color12:               S_base0
 
-    ! white
-    *.color7:       #f8f8f2
-    *.color15:      #f9f8f5
+    !! magenta dark/light
+    *color5:                S_magenta
+    *color13:               S_violet
 
-    Xft.dpi: 96
-    Xft.antialias: true
-    Xft.hinting: true
-    Xft.rgba: rgb
-    Xft.autohint: false
-    Xft.hintstyle: hintslight
-    Xft.lcdfilter: lcddefault
-    Xcursor.theme: Chameleon-Pearl-Regular-0.5
-    Xcursor.size:  0
+    !! cyan dark/light
+    *color6:                S_cyan
+    *color14:               S_base1
 
-    !XTerm*background: #272827
-    !XTerm*foreground: #fdf6e3
-    XTerm*reverseVideo: on
-    XTerm*faceName: DejaVu Sans Mono:size=14:antialias=true
-    XTerm*selectToClipboard: true
+    !! white dark/light
+    *color7:                S_base2
+    *color15:               S_base3
 
-    URxvt.font: xft:terminus:size=8:antialias=true
-    URxvt.depth: 32
-
-    !! BACKGROUND TRANSPARENT
-    ! URxvt.background: [80]#06060a
-
-    ! URxvt*scrollBar:                      false
-    URxvt*mouseWheelScrollPage:           false
-    URxvt*cursorBlink:                    true
-    URxvt*background:                     black
-    !URxvt*foreground:                     grey
-    URxvt*saveLines:                      5000
-
-    ! for 'fake' transparency (without Compton) uncomment the following three lines
-    ! URxvt*inheritPixmap:                  true
-    ! URxvt*transparent:                    true
-    ! URxvt*shading:                        138
   '';
 }
