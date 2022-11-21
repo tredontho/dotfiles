@@ -20,8 +20,11 @@
   programs.home-manager.enable = true;
 
   home.packages = [
+    pkgs.acpi
     pkgs.bottom
+    pkgs.dmenu
     pkgs.ripgrep
+    pkgs.scrot
     pkgs.xclip
   ];
 
@@ -116,21 +119,86 @@
        bind u attach-session -t . -c '#{pane_current_path}'
        bind '"' split-window -v -c "#{pane_current_path}"
        bind '%' split-window -h -c "#{pane_current_path}"
+       bind-key -T copy-mode-vi 'v' send-keys -X begin-selection
+       bind-key -T copy-mode-vi 'y' send-keys -X copy-selection
       '';
     };
 
     urxvt = {
       enable = true;
+      extraConfig = {
+        # perl-ext-common = "resize-font"
+        "keysym.C-minus" = "resize-font:smaller";
+        "keysym.C-plus" = "resize-font:bigger";
+        "keysym.C-0" = "resize-font:reset";
+        "keysym.C-question" = "resize-font:show";
+      };
       fonts = [
         "xft:Hack Nerd Font:size=10"
       ];
       keybindings = {
+        "C-minus" = "resize-font:smaller";
+        "C-plus" = "resize-font:bigger";
+        "C-0" = "resize-font:reset";
+        "C-question" = "resize-font:show";
         "Shift-Control-C" = "eval:selection_to_clipboard";
         "Shift-Control-V" = "eval:paste_clipboard";
       };
       shading = 0;
     };
 
+    xmobar = {
+      enable = true;
+      extraConfig = ''
+        Config { overrideRedirect = False
+               , font     = "xft:Hack Nerd Font:size=9"
+               , additionalFonts  = ["xft:FontAwesome-9"]
+               , bgColor  = "#5f5f5f"
+               , fgColor  = "#f8f8f2"
+               , position = TopW L 90
+               , commands = [ Run Weather "KMSN"
+                                [ "--template", "<weather> <tempF>°F"
+                                , "-L", "32"
+                                , "-H", "75"
+                                , "--low"   , "lightblue"
+                                , "--normal", "#f8f8f2"
+                                , "--high"  , "red"
+                                ] 36000
+                            , Run Cpu
+                                [ "-L", "3"
+                                , "-H", "50"
+                                , "--high"  , "red"
+                                , "--normal", "green"
+                                ] 10
+                            , Run Alsa "default" "Master"
+                                [ "--template", "<volumestatus>"
+                                , "--suffix"  , "True"
+                                , "--"
+                                , "--on", ""
+                                ]
+                            , Run Memory ["--template", "Mem: <usedratio>%"] 10
+                            , Run Swap [] 10
+                            , Run Date "%a %Y-%m-%d <fc=#8be9fd>%H:%M</fc>" "date" 10
+                            , Run Battery
+                                ["-t", "<acstatus><watts> (<left>%)"
+                                , "-L", "10", "-H", "80", "-p", "3"
+                                , "--", "-O", "<fc=green>On</fc> - ", "-i", ""
+                                , "-L", "-15", "-H", "-5"
+                                , "-l", "red", "-m", "blue", "-h", "green"
+                                , "-a", "notify-send -u critical 'Battery running out!!'"
+                                , "--lows"   , "<fn=1>\62020</fn>  "
+                                , "--mediums", "<fn=1>\62018</fn>  "
+                                , "--highs"  , "<fn=1>\62016</fn>  "
+                                , "-A", "3"]
+                               600
+                            , Run XMonadLog
+                            ]
+               , sepChar  = "%"
+               , alignSep = "}{"
+               , template = "%XMonadLog% }{ %alsa:default:Master% | %cpu% | %memory% * %swap% | %KMSN% | %battery% | %date% "
+               }
+      '';
+    };
     zsh = {
       enable = true;
       enableCompletion = false; # disable for now because it causes some sort of issue?
@@ -159,6 +227,21 @@
       enable = true;
       defaultCacheTtl = 1800;
       enableSshSupport = true;
+    };
+
+    trayer = {
+      enable = true;
+      settings = {
+        SetDockType = true;
+        SetPartialStrut = true;
+        align = "right";
+        edge = "top";
+        expand = true;
+        height = 18;
+        tint = 6250335;
+        transparent = true;
+        width = 10;
+      };
     };
 
     xscreensaver = {
