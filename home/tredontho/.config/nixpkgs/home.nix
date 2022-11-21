@@ -22,6 +22,7 @@
   home.packages = [
     pkgs.bottom
     pkgs.ripgrep
+    pkgs.xclip
   ];
 
   xdg.configFile.nvim = {
@@ -124,6 +125,7 @@
         "Shift-Control-C" = "eval:selection_to_clipboard";
         "Shift-Control-V" = "eval:paste_clipboard";
       };
+      shading = 0;
     };
 
     zsh = {
