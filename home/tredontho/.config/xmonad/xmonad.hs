@@ -6,6 +6,7 @@ import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Layout.Magnifier
 import XMonad.Layout.ThreeColumns
+import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
 import XMonad.Util.Loggers
 import XMonad.Util.Ungrab
@@ -17,14 +18,27 @@ main = xmonad
      . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
      $ myConfig
 
+myWorkspaces :: [WorkspaceId]
+myWorkspaces = take 10 . tail . cycle . map show $ [0..9 :: Int]
+
+-- Rebind mod to the Super key (usually windows key between left Ctrl and Alt keys)
+myModMask = mod4Mask
+
 myConfig = def
     { layoutHook = myLayout
-    , modMask = mod4Mask -- Rebind mod to the Super key (usually windows key between left Ctrl and Alt keys)
+    , modMask = myModMask
     , terminal = "urxvt"
+    , workspaces = myWorkspaces
     }
-  `additionalKeysP`
-    [ ("M-S-z", spawn "xscreensaver-command -lock")
-    , ("M-C-s", unGrab *> spawn "scrot -s")
+  -- `additionalKeysP`
+    -- [ ("M-S-z", spawn "xscreensaver-command -lock")
+    -- , ("M-C-s", unGrab *> spawn "scrot -s")
+    -- ]
+  `additionalKeys`
+    [ ((myModMask .|. shiftMask, xK_z), spawn "xscreensaver-command -lock")
+    , ((myModMask .|. controlMask, xK_s), unGrab *> spawn "scrot -s")
+    , ((myModMask, xK_0), windows $ W.greedyView (show 0))
+    , ((myModMask .|. shiftMask, xK_0), windows $ W.shift (show 0))
     ]
 
 myLayout = tiled ||| Mirror tiled ||| threeCol ||| Full
