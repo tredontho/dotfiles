@@ -82,6 +82,10 @@
   #  wget
   ];
 
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp2s0";
+  };
   programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
