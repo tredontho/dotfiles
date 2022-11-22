@@ -15,6 +15,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  console.useXkbConfig = true;
+
   networking.hostName = "virhe"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -31,22 +33,12 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
-  services.interception-tools = {
-    enable = true;
-    plugins = [ pkgs.interception-tools-plugins.caps2esc ];
-    udevmonConfig = ''
-      - JOB: "$pkgs.interception-tools}/bin/intercept -g $DEVNODE | $pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-        DEVICE:
-          EVENTS:
-            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-    '';
-  };
-
   # Configure X11
   services.xserver = {
     enable = true;
     layout = "us";
     xkbVariant = "";
+    xkbOptions = "ctrl:swapcaps";
     libinput = {
       enable = true;
     };
