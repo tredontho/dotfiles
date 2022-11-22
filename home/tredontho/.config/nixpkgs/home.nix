@@ -63,12 +63,30 @@
       userEmail = "tredontho@gmail.com";
       userName = "tredontho";
       extraConfig = {
+        core = {
+          editor = "nvim";
+        };
+        diff = {
+          tool = "nvimdiff";
+        };
         push = {
           default = "current";
         };
         log.date = "iso-local";
+        merge = {
+          tool = "nvimdiff";
+          conflictstyle = "diff3";
+        };
+        mergetool = {
+          keepBackup = false;
+          trustExitCode = false;
+          prompt = true;
+        };
         rerere.enabled = true;
         rebase.autoSquash = true;
+        mergetool."nvimdiff" = {
+          layout = "LOCAL,MERGED,REMOTE";
+        };
       };
     };
 
@@ -152,7 +170,7 @@
       extraConfig = ''
         Config { overrideRedirect = False
                , font     = "xft:Hack Nerd Font:size=9"
-               , additionalFonts  = ["xft:FontAwesome-9"]
+               , additionalFonts  = ["xft:FontAwesome-12"]
                , bgColor  = "#5f5f5f"
                , fgColor  = "#f8f8f2"
                , position = TopW L 90
@@ -180,7 +198,7 @@
                             , Run Swap [] 10
                             , Run Date "%a %Y-%m-%d <fc=#8be9fd>%H:%M</fc>" "date" 10
                             , Run Battery
-                                ["-t", "<acstatus><watts> (<left>%)"
+                                ["-t", "<acstatus> -- <timeleft> (<left>%)"
                                 , "-L", "10", "-H", "80", "-p", "3"
                                 , "--", "-O", "<fc=green>On</fc> - ", "-i", ""
                                 , "-L", "-15", "-H", "-5"
@@ -195,7 +213,7 @@
                             ]
                , sepChar  = "%"
                , alignSep = "}{"
-               , template = "%XMonadLog% }{ %alsa:default:Master% | %cpu% | %memory% * %swap% | %KMSN% | %battery% | %date% "
+               , template = "%XMonadLog% }{ %cpu% | %memory% * %swap% | %KMSN% | %battery% | %date% "
                }
       '';
     };
