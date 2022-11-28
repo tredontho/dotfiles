@@ -17,6 +17,11 @@
 
   console.useXkbConfig = true;
 
+  hardware = {
+    bluetooth.enable = true;
+    pulseaudio.enable = true;
+  };
+
   networking.hostName = "virhe"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -32,6 +37,20 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
+
+  programs.light.enable = true;
+
+  sound.mediaKeys.enable = true;
+
+  services.actkbd = {
+    enable = true;
+    bindings = [
+      { keys = [225]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
+      { keys = [224]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+    ];
+  };
+
+  services.blueman.enable = true;
 
   # Configure X11
   services.xserver = {
@@ -55,7 +74,7 @@
   users.users.tredontho = {
     isNormalUser = true;
     description = "Trevor Thompson";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" ];
     packages = with pkgs; [];
     shell = pkgs.zsh;
   };
