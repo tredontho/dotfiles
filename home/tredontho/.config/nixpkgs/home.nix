@@ -258,11 +258,15 @@
   };
 
   services = {
+    blueman-applet.enable = true;
+
     gpg-agent = {
       enable = true;
       defaultCacheTtl = 1800;
       enableSshSupport = true;
     };
+
+    pasystray.enable = true;
 
     trayer = {
       enable = true;
@@ -343,4 +347,8 @@
     *color15:               S_base3
 
   '';
+
+  xsession = {
+    enable = true;
+  };
 }
