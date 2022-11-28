@@ -13,7 +13,7 @@ local on_attach = function(client, bufnr)
 
   -- Mappings
   local opts = { noremap=true, silent=true, buffer=true}
-  require('legendary').bind_keymaps({
+  require('legendary').keymaps({
     { 'gD', vim.lsp.buf.declaration, description = 'LSP: Go to declaration', opts = opts },
     { 'gd', vim.lsp.buf.definition, description = 'LSP: Go to definition', opts = opts },
     { 'K', vim.lsp.buf.hover, description = 'LSP: Hover', opts = opts },
@@ -75,3 +75,5 @@ nvim_lsp.sumneko_lua.setup{
   on_attach = on_attach,
   capabilities = capabilities
 }
+
+default_lsp_setup('metals')

@@ -102,6 +102,9 @@
         legendary-nvim
         nvim-cmp
         nvim-lspconfig
+        nvim-metals
+        packer-nvim
+        plenary-nvim
         tmux-navigator
         vim-fugitive
         vim-illuminate
@@ -110,11 +113,25 @@
         vim-sensible
       ];
       extraPackages = with pkgs; [
+        coursier
         haskellPackages.haskell-language-server
+        metals
         sumneko-lua-language-server
       ];
       vimAlias = true;
       vimdiffAlias = true;
+    };
+
+    sioyek = {
+      enable = true;
+      bindings = {
+        "move_up" = "k";
+        "move_down" = "j";
+        "move_left" = "h";
+        "move_right" = "l";
+        "screen_down" = [ "d" "<C-d>" ];
+        "screen_up" = [ "u" "<C-u>" ];
+      };
     };
 
     starship = {
