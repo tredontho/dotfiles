@@ -40,13 +40,17 @@
 
   programs.light.enable = true;
 
-  sound.mediaKeys.enable = true;
+  # sound.mediaKeys.enable = true;
 
   services.actkbd = {
     enable = true;
     bindings = [
-      { keys = [225]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
-      { keys = [224]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+      { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
+      { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+      { keys = [ 113 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"; }
+      { keys = [ 114 ]; events = [ "key" "rep" ]; command = "/run/current-system/sw/bin/pactl set-sink-volume @DEFAULT_SINK@ -5"; }
+      { keys = [ 115 ]; events = [ "key" "rep" ]; command = "/run/current-system/sw/bin/pactl set-sink-volume +5"; }
+      { keys = [ 190 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"; }
     ];
   };
 
@@ -74,7 +78,7 @@
   users.users.tredontho = {
     isNormalUser = true;
     description = "Trevor Thompson";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio"];
     packages = with pkgs; [];
     shell = pkgs.zsh;
   };
