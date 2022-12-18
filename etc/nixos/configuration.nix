@@ -56,6 +56,8 @@
 
   services.blueman.enable = true;
 
+  services.geoclue2.enable = true;
+
   # Configure X11
   services.xserver = {
     enable = true;

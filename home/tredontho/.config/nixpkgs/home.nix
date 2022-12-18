@@ -23,6 +23,7 @@
     pkgs.acpi
     pkgs.bottom
     pkgs.dmenu
+    pkgs.fd
     pkgs.ripgrep
     pkgs.scrot
     pkgs.xclip
@@ -34,9 +35,15 @@
   };
 
   programs = {
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
     firefox = {
       enable = true;
     };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
@@ -105,6 +112,7 @@
         nvim-metals
         packer-nvim
         plenary-nvim
+        sonokai
         tmux-navigator
         vim-fugitive
         vim-illuminate
@@ -114,7 +122,9 @@
       ];
       extraPackages = with pkgs; [
         coursier
+        ghc
         haskellPackages.haskell-language-server
+        jdk11
         metals
         sumneko-lua-language-server
       ];
@@ -149,13 +159,14 @@
       customPaneNavigationAndResize = true;
       plugins = with pkgs; [
         tmuxPlugins.vim-tmux-navigator
+        tmuxPlugins.yank
       ];
       extraConfig = ''
        bind u attach-session -t . -c '#{pane_current_path}'
        bind '"' split-window -v -c "#{pane_current_path}"
        bind '%' split-window -h -c "#{pane_current_path}"
        bind-key -T copy-mode-vi 'v' send-keys -X begin-selection
-       bind-key -T copy-mode-vi 'y' send-keys -X copy-selection
+       set -g @yank_action 'copy-pipe'
       '';
     };
 
@@ -267,6 +278,12 @@
     };
 
     pasystray.enable = true;
+
+    redshift = {
+      enable = true;
+      provider = "geoclue2";
+      tray = true;
+    };
 
     trayer = {
       enable = true;

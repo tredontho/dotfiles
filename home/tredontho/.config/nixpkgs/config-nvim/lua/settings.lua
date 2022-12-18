@@ -5,6 +5,9 @@ opt.incsearch = true
 opt.hlsearch = true
 opt.ignorecase = true
 opt.smartcase = true
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftwidth = 0
 opt.autoindent = true
 opt.smartindent = true
 opt.expandtab = true
@@ -16,4 +19,4 @@ g.mapleader = ','
 
 vim.cmd("syntax enable")
 opt.background = "dark"
-vim.cmd("colorscheme monokai_pro")
+vim.cmd("colorscheme sonokai")
