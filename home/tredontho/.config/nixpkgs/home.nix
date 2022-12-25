@@ -168,6 +168,7 @@
        bind '%' split-window -h -c "#{pane_current_path}"
        bind-key -T copy-mode-vi 'v' send-keys -X begin-selection
        set -g @yank_action 'copy-pipe'
+       set -g renumber-windows on
       '';
     };
 
