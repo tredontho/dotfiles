@@ -48,7 +48,7 @@ metals_config.on_attach = function(client, buffer)
         end)
 
         map("n", "<leader>f", function()
-          vim.lsp.buf.formatting()
+          vim.lsp.buf.format { async = true }
         end)
 
         map("n", "<leader>ca", function()
