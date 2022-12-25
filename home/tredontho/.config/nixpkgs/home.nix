@@ -23,6 +23,7 @@
     pkgs.acpi
     pkgs.bottom
     pkgs.dmenu
+    # pkgs.dwarf-fortress
     pkgs.fd
     pkgs.ripgrep
     pkgs.scrot
@@ -178,6 +179,8 @@
         "keysym.C-plus" = "resize-font:bigger";
         "keysym.C-0" = "resize-font:reset";
         "keysym.C-question" = "resize-font:show";
+        "iso14755" = false;
+        "iso14755_52" = false;
       };
       fonts = [
         "xft:Hack Nerd Font:size=10"
@@ -247,7 +250,7 @@
     };
     zsh = {
       enable = true;
-      enableCompletion = false; # disable for now because it causes some sort of issue?
+      enableCompletion = true; # disable for now because it causes some sort of issue?
 
       # defaultKeymap = "vicmd";
       defaultKeymap = "viins";
